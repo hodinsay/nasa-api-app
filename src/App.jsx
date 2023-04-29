@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
+import axios from 'axios';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [picture, setPicture] = useState(null);
+  const [title, setTitle] = useState(null);
+  const [date, setDate] = useState(null);
+  const [explanation, setExplanation] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios.get('https://api.nasa.gov/planetary/apod?api_key=yV1mHf6M4XGcUOjmpRDc6AZ65cLxmM0X2razi3hR&date=2023-04-28')
+      .then(response => {
+        setPicture(response.data.hdurl)
+        setTitle(response.data.title)
+        setDate(response.data.date)
+        setExplanation(response.data.explanation)
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.error('Erorr fetching data: ', error);
+        setError(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      })
+  }, [])
 
   return (
     <>
+      <h1>NASA</h1>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <label htmlFor="date">Date: </label>
+        <input type="date" name='date' id='date'/>
+        <button type='button'> Get Pic </button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <img src={picture} alt="nasa" />
+      <h1>{title}</h1>
+      <h3>{date}</h3>
+      <p>{explanation}</p>
     </>
   )
 }
 
-export default App
+export default App;
