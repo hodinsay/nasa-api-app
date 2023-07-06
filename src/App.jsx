@@ -54,7 +54,7 @@ function App() {
           <form onSubmit={handleFetchNasaData} className="flex justify-center">
             <div className="mb-4">
               <label htmlFor="date" className="mr-2">Date:</label>
-              <input type="date" name="date" id="date" className="border border-gray-300 p-2 rounded-md" />
+              <input type="date" name="date" id="date" className="border border-gray-300 p-2 rounded-md cursor-pointer" required/>
               <button
                 type="submit"
                 className="ml-2 bg-blue-700 text-white py-2 px-4 rounded-md"
@@ -73,7 +73,7 @@ function App() {
                 <img
                   src={picture}
                   alt="nasa"
-                  className="w-full h-full object-cover rounded-md cursor-pointer"
+                  className="w-full h-full object-cover rounded-md cursor-zoom-in"
                   onClick={openModal}
                 />
               </div>
@@ -86,7 +86,7 @@ function App() {
       </div>
       {showModal && (
         <div 
-          className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75" 
+          className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75 cursor-zoom-out" 
           onClick={closeModal}
         >
           <div className="relative w-2/3 h-2/3">
